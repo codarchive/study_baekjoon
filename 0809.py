@@ -1,14 +1,40 @@
-# 백준 2798(내거)
+# 백준 1932 정수삼각형 (내거)
 
-N,M=map(int,input().split())
-nums=list(map(int,input().split()))[0:N] #list안하면 프린트해도 <map object at 0x06A6F9A0> 이딴식으로 나옴.
+Nn= int(input())
+tri_nums=list(list(map(int,input().split())) for _ in range(n))
 
-sum_of_3=[]
+sum_n=dict()
+sum_ns=[]
 
-for i in range(0,N-2):
-    for j in range(i+1,N-1):
-        for k in range(j+1,N):
-            if nums[i]+nums[j]+nums[k]-M <= 0:
-                sum_of_3.append(nums[i]+nums[j]+nums[k])
+def tri(depth=0):
+    import copy
+    global sum_n
+    global sum_ns
+    for i in range(len(tri_nums[depth])):
+        
+        if depth==0:
+            sum_n[(0,0)]=tri_nums[0][0]
+            
+        else :
 
-print(max(sum_of_3))
+            a=[]
+            if (depth-1,i) in sum_n.keys():
+                a.append(sum_n[(depth-1,i)]+tri_nums[depth][i])
+            if (depth-1,i-1) in sum_n.keys():
+                a.append(sum_n[(depth-1,i-1)]+tri_nums[depth][i])
+            if a !=[]:
+                sum_n[(depth,i)]=copy.deepcopy(max(a))
+for i in range(n):
+    tri(i)
+
+print(max(sum_n.values()))             
+
+
+# 백준 1932(남거)
+import sys
+n = int(input())
+x = [0]*n
+for i in range(n):
+  a = list(map(int, sys.stdin.readline().split()))
+  x[0: i + 1] = [a[j] + max(x[j - 1], x[j]) for j in range(i + 1)]
+print(max(x))
